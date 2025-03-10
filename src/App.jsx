@@ -5,6 +5,7 @@ import "./App.css";
 
 function App() {
   const [excelData, setExcelData] = useState([]);
+  const [showButton, setShowButton] = useState(false);
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -27,6 +28,7 @@ function App() {
     reader.readAsArrayBuffer(file);
 
     alert("file add");
+    setShowButton(true);
   };
 
   const exportToExcel = () => {
@@ -44,6 +46,8 @@ function App() {
         excelData.length + 1
       }`,
     };
+    const colCount = Object.keys(excelData[0]).length;
+    worksheet["!cols"] = Array(colCount).fill({ wch: 25 });
 
     XLSX.utils.book_append_sheet(workBook, worksheet, "Sheet1");
 
@@ -61,9 +65,11 @@ function App() {
         onChange={handleFileUpload}
       />
 
-      <button class="btn btn-primary" type="submit" onClick={exportToExcel}>
-        Export to excel
-      </button>
+      {showButton && (
+        <button class="btn btn-primary" type="submit" onClick={exportToExcel}>
+          Export to excel
+        </button>
+      )}
       {excelData && (
         <div>
           <h2>Excel Data</h2>
