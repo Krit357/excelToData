@@ -27,7 +27,7 @@ function App() {
     };
     reader.readAsArrayBuffer(file);
 
-    alert("file add");
+    alert("file added");
     setShowButton(true);
   };
 
