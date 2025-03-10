@@ -6,11 +6,14 @@ import "./App.css";
 function App() {
   const [excelData, setExcelData] = useState([]);
   const [showButton, setShowButton] = useState(false);
+  const [fileName, setFileName] = useState("exported_data.xlsx");
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
 
     if (!file) return;
+
+    setFileName(file.name.replace(/\.[^/.]+$/, ""));
 
     // file reader api
     const reader = new FileReader();
@@ -50,7 +53,7 @@ function App() {
 
     XLSX.utils.book_append_sheet(workBook, worksheet, "Sheet1");
 
-    XLSX.writeFile(workBook, "exported_data_with_filter.xlsx");
+    XLSX.writeFile(workBook, `${fileName}_modified.xlsx`);
   };
 
   return (
